@@ -11,23 +11,27 @@
 <body class="bg-gray-200">
     <nav class="p-2 bg-white flex justify-between mb-6">
         <ul class="flex items-center">
-            <li
+            <li>
                 <a class="p-3" href="">Home</a>
             </li>
             <li>
-                <a class="p-3" href="">Dashboard</a>
+                <a class="p-3" href="{{ route('dashboard') }}">Dashboard</a>
             </li>
             <li>
-                <a class="p-3" href="">Post</a>
+                <a class="p-3" href="{{ route('posts')}}">Post</a>
             </li>
         </ul>
         <ul class="flex items-center">
             @auth
-                <li
-                    <a class="p-3" href="">{{ auth()->name }}</a>
+                <li>
+                    <a class="p-3" href="">{{ auth()->user()->name }}</a>
                 </li>
-                <li
-                    <a class="p-3" href="">Logout</a>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" class="p-3 inline">
+                        @csrf
+                        <button type="submit" >Logout</button>
+                    </form>
+
                 </li>
             @endauth
             @guest
@@ -35,7 +39,7 @@
                     <a class="p-3" href="{{ route('register') }}">Register</a>
                 </li>
                 <li>
-                    <a class="p-3" href="">Login</a>
+                    <a class="p-3" href="{{ route('login') }}">Login</a>
                 </li>
             @endguest
         </ul>
