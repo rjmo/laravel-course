@@ -9,7 +9,11 @@ class PostController extends Controller
 {
     public function index()
     {
-        return view('post.index');
+        $posts = Post::orderBy('created_at', 'desc')->with(['user', 'likes'])->paginate(20);
+
+        return view('post.index', [
+            'posts' => $posts,
+        ]);
     }
     public function store(Request $request)
     {
@@ -19,7 +23,12 @@ class PostController extends Controller
         $request->user()->posts()->create([
             'body' => $request->body
         ]);
-
+        return back();
+    }
+    public function destroy(Post $post)
+    {
+        $this->authorize('delete', $post);
+        $post->delete();
         return back();
     }
 }
