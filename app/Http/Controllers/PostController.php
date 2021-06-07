@@ -25,9 +25,9 @@ class PostController extends Controller
         ]);
 
         if (!Auth::check()) {
-            abort(401);
+            return view('auth.login');
         }
-        
+
         $request->user()->posts()->create([
             'body' => $request->body
         ]);
