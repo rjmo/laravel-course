@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -17,9 +18,16 @@ class PostController extends Controller
     }
     public function store(Request $request)
     {
+
+
         $this->validate($request, [
             'body' => 'required',
         ]);
+
+        if (!Auth::check()) {
+            abort(401);
+        }
+        
         $request->user()->posts()->create([
             'body' => $request->body
         ]);
